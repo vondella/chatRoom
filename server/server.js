@@ -3,6 +3,7 @@ const express = require("express");
 const socketIO = require("socket.io");
 const http = require("http");
 const publicPath = path.join(__dirname, "../public");
+const { generateMethod } = require("./utils/message");
 console.log(__dirname + "/../public");
 console.log(publicPath);
 const port = process.env.port || 3000;
@@ -26,6 +27,12 @@ io.on("connection", socket => {
 
   socket.on("createMessage", message => {
     console.log("createMessage", message);
+    // io.emit("newMessage", {
+    //   to: "vondella21",
+    //   text: "hi there",
+    //   createdAt: new Date().getTime()
+    // });
+    socket.broadcast.emit("newMessage", generateMethod("vondella", "hi there"));
   });
 
   socket.on("disconnect", () => {
